@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Panel</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+    
     <style>
         /* General Styles */
         body {
@@ -292,7 +292,7 @@ nav ul li a:hover {
                 <input type="text" id="location" name="location" placeholder="Enter location" required>
                 
                 <label for="price">Price:</label>
-                <input type="text" id="price" name="price" placeholder="Enter price in nepali" required>
+                <input type="number" id="price" name="price" placeholder="Enter price in nepali" required>
                 
                 <label for="map_image">Upload Map Image (Naksa):</label>
                 <input type="file" id="map_image" name="map_image" accept="image/*" required>
@@ -312,22 +312,22 @@ nav ul li a:hover {
     <h4>please upload clear and every side of house</h4>
     <form action="./submit_house.php" method="POST" enctype="multipart/form-data">
         <label for="floors">Total Floors:</label>
-        <input type="text" id="floors" name="floors" placeholder="Enter total floors" required>
+        <input type="number" id="floors" name="floors" placeholder="Enter total floors" required>
         
         <label for="bedrooms">Bedrooms:</label>
-        <input type="text" id="bedrooms" name="bedrooms" placeholder="Enter number of bedrooms" required>
+        <input type="number" id="bedrooms" name="bedrooms" placeholder="Enter number of bedrooms" required>
         
         <label for="living_rooms">Living Rooms:</label>
-        <input type="text" id="living_rooms" name="living_rooms" placeholder="Enter number of living rooms" required>
+        <input type="number" id="living_rooms" name="living_rooms" placeholder="Enter number of living rooms" required>
         
         <label for="kitchens">Kitchens:</label>
-        <input type="text" id="kitchens" name="kitchens" placeholder="Enter number of kitchens" required>
+        <input type="number" id="kitchens" name="kitchens" placeholder="Enter number of kitchens" required>
         
         <label for="washrooms">Washrooms:</label>
         <input type="text" id="washrooms" name="washrooms" placeholder="Enter number of washrooms" required>
         
         <label for="attached_washrooms">Attached Washrooms:</label>
-        <input type="text" id="attached_washrooms" name="attached_washrooms" placeholder="Enter number of attached washrooms" required>
+        <input type="number" id="attached_washrooms" name="attached_washrooms" placeholder="Enter number of attached washrooms" required>
         
         <label for="location">Location:</label>
         <input type="text" id="location" name="location" placeholder="Enter location" required>
@@ -336,7 +336,7 @@ nav ul li a:hover {
                 <input type="text" id="area" name="area" placeholder="Enter house area" required>
         
         <label for="price">Price:</label>
-        <input type="text" id="price" name="price" placeholder="Enter price in nepali" required>
+        <input type="number" id="price" name="price" placeholder="Enter price in nepali" required>
         
         <label for="map_image">Upload Map Image (Naksa):</label>
         <input type="file" id="map_image" name="map_image" accept="image/*" required>

@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Fetch user from the database
     $sql = "SELECT * FROM users WHERE email = :email";
     $stmt = $conn->prepare($sql);
-    // $We use $stmt when we prepare and execute SQL queries securely
+    // $We use $stmt variable when we prepare and execute SQL queries securely
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         /* Global Styles */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif; /*This CSS rule sets the font style for text inside an element */
             background: white;
             display: flex;
             justify-content: center;

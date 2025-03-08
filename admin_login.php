@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'password' => $hashedPassword // Use the hashed password here
             ]);
 
-            echo "<p>Admin registered successfully!</p>";
+            // Admin registration successful, but no message is displayed
         }
     } elseif (isset($_POST['login'])) {
         // Handle admin login

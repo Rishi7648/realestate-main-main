@@ -99,7 +99,7 @@
         <div class="contact-info">
             <div class="contact-card">
                 <span class="contact-icon">&#127968;</span>
-                <h3>Company: Real Estate Nepal</h3>
+                <h3>Company: Ghar Ghagga Sansar</h3>
             </div>
             <div class="contact-card">
                 <span class="contact-icon">&#127970;</span>
@@ -126,7 +126,7 @@
         </div>
     </div>
     <div class="footer">
-        &copy; 2025 Real Estate Nepal. All rights reserved.
+        &copy; 2025 Ghar Gagga Sansar. All rights reserved.
     </div>
 </body>
 </html>

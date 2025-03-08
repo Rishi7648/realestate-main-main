@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         // Check if the email already exists
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-         // We use $stmt when we prepare and execute SQL queries securely
+         // We use $stmt variable when we prepare and execute SQL queries securely
         $stmt->execute(['email' => $email]);
 
         if ($stmt->rowCount() > 0) {
@@ -80,14 +80,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         /* General body styles */
         body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Poppins', sans-serif;/*This CSS rule sets the font style for text inside an element */
+            margin: 0; /*Margin creates space outside an element */
+            padding: 0; /*Margin creates space inside an element */
             height: 100vh;
             background: linear-gradient(135deg, #ff7e5f, #feb47b); /*background color behind of signup form*/
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; /*for centering */
+            justify-content: center; /* Centers the content horizontally */
+            align-items: center; /* Centers the vertically */
             color: #fff;
         }
 

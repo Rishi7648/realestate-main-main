@@ -1,7 +1,8 @@
 <?php
 include 'db.php';
 session_start();
-
+/* form is submitted using post method*/ 
+/*retriving form data */ 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['signup'])) {
         // Handle admin signup
@@ -11,12 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+               // This function is used to validate the email address
             echo "<p>Invalid email format!</p>";
             exit();
         }
 
         // Validate password strength
-        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[A-Za-z\d]{8,}$/', $password)) {
+        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[A-Za-z\d]{6,}$/', $password)) {
+// !preg_match is used for Validating input (e.g., ensuring a string does not contain invalid characters).
+    // preg_match  function is used to perform a regular expression
+
             echo "<p>Password is weak! Please use at least 8 characters with a mix of letters and numbers.</p>";
             exit();
         }
@@ -42,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'password' => $hashedPassword // Use the hashed password here
             ]);
 
-           
+            echo "<p>Admin registered successfully!</p>";
         }
     } elseif (isset($_POST['login'])) {
         // Handle admin login
@@ -54,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute(['email' => $email]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Verify the password
         if ($admin && password_verify($password, $admin['password'])) {
             $_SESSION['admin_id'] = $admin['id'];
             $_SESSION['username'] = $admin['username'];
@@ -177,20 +183,7 @@ p .toggle-form {
     display: block;
     margin-top: 10px;
 }
-/* Forgot Password Link */
-.forgot-password {
-    font-size: 14px;
-    color: #4e54c8; /* Matching the gradient theme */
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 10px;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
 
-.forgot-password:hover {
-    color: #8f94fb; /* Lighter shade of the gradient theme */
-    text-shadow: 0 0 10px rgba(79, 92, 238, 0.6); /* Subtle glow effect */
-}
 
 /* Underline Effect on Hover */
 .forgot-password::after {
@@ -223,7 +216,7 @@ p .toggle-form {
     </form>
     <p>
         <span class="toggle-form" onclick="toggleForm('signup-form')">Don't have an account? Signup</span><br>
-        <a href="#" class="forgot-password" onclick="showForgotPasswordMessage()">Forgot Password?</a>
+        
     </p>
 </div>
 
@@ -242,8 +235,7 @@ p .toggle-form {
     </form>
     <p>
         <span class="toggle-form" onclick="toggleForm('login-form')">Already have an account? Login</span><br>
-        <a href="#" class="forgot-password" onclick="showForgotPasswordMessage()">Forgot Password?</a>
-    </p>
+        
 </div>
 
 <script>
@@ -264,9 +256,7 @@ p .toggle-form {
             icon.innerHTML = "&#128065;"; // Eye closed icon
         }
     }
-    function showForgotPasswordMessage() {
-            alert("This function isn't working right now. Please try again later.");
-        }
+    
 </script>
 
 </body>

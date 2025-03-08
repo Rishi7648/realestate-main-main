@@ -33,7 +33,7 @@ session_start(); // Start the session to access session variables
 
         /* Brand (Logo) */
         .brand {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
             color: #ffda79;
             text-transform: uppercase;
@@ -195,7 +195,7 @@ body {
 <header>
     <nav class="navbar">
         <div class="brand">
-            Real Estate
+            Ghar Jagga Sansar
         </div>
         <button class="hamburger" onclick="toggleMenu()">☰</button>
         <ul class="nav-links">
@@ -220,7 +220,7 @@ body {
 <!-- Footer Section -->
 <footer class="footer">
     <div class="footer-content">
-        <p><strong>Company :</strong> Real Estate Nepal</p>
+        <p><strong>Company :</strong> Ghar Jagga Sansar</p>
         <p><strong>Location:</strong> Thamel, Kathmandu</p>
         <p><strong>Contact:</strong> 9899100101</p>
         <p><strong>Email:</strong> contact@realestate.com</p>

@@ -137,19 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: #feb47b;
         }
 
-        /* Forgot Password Button */
-        .forgot-password {
-            font-size: 14px;
-            color: blue;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-            transition: color 0.3s ease;
-        }
-
-        .forgot-password:hover {
-            color: #feb47b;
-        }
+       
 
         /* Animation */
         .form-container {
@@ -182,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Login</button>
             
             <p>Don't have an account? <a href="signup.php">Sign up</a></p>
-            <a href="#" class="forgot-password" onclick="showForgotPasswordMessage()">Forgot Password?</a>
+            
         </form>
     </div>
 
@@ -210,9 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
-        function showForgotPasswordMessage() {
-            alert("This function isn't working right now. Please try again later.");
-        }
+       
     </script>
 </body>
 </html>

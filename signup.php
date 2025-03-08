@@ -10,26 +10,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = trim($_POST['phone']);
     $password = $_POST['password'];
 
-    // Validate inputs
+    // Validating email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // This function is used to validate the email address
         echo "<p>Invalid email format!</p>";
         exit();
     }
  
     // !preg_match is used for Validating input (e.g., ensuring a string does not contain invalid characters).
+    // preg_match  function is used to perform a regular expression
     if (!preg_match('/^\d{10}$/', $phone)) {
         echo "<p>Invalid phone number! Must be 10 digits.</p>";
         exit();
+        // exit function is used to terminates the execution of the script immediately
     }
 
     // Password strength validation
-    if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[A-Za-z\d]{8,}$/', $password)) {
+    if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[A-Za-z\d]{6,}$/', $password)) {
         echo "<p>Password is weak! Please use at least 6 characters with a mix of letters and numbers.</p>";
         exit();
     }
 
     // Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password securely
 
     try {
         // Check if the email already exists
@@ -40,10 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($stmt->rowCount() > 0) {
             echo "<p>Email already exists!</p>";
         } else {
-            // Insert user into the database
+            // Inserting users into the database
             $sql = "INSERT INTO users (first_name, last_name, email, phone, password) 
                     VALUES (:first_name, :last_name, :email, :phone, :password)";
             $stmt = $conn->prepare($sql);
+            
 /* Binding Data and Executing the Query*/
 
             $data = [
@@ -51,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'last_name' => $lastName,
                 'email' => $email,
                 'phone' => $phone,
-                'password' => $hashedPassword
+                'password' => $hashedPassword // Use the hashed password here
             ];
 
             if ($stmt->execute($data)) {
@@ -162,22 +166,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background: linear-gradient(45deg, #2575fc, #6a11cb);
         }
 
-        /* Forgot Password link */
-.forgot-password {
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    color: #fff;
-    font-size: 14px;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
+        
 
-.forgot-password:hover {
-    color: #6a11cb; /* Change to a lighter or contrasting color on hover */
-    text-decoration: underline;
-}
-Explanation o
+
 
         /* Signup link */
         .form-container p {
@@ -232,7 +223,7 @@ Explanation o
             <button type="submit">Signup</button>
         </form>
         <p>Already have an account? <a href="login.php">Login here</a></p>
-        <a href="#" class="forgot-password" onclick="showForgotPasswordMessage()">Forgot Password?</a>
+       
     </div>
 
     <script>
@@ -251,9 +242,7 @@ Explanation o
                 passwordVisible = true;
             }
         }
-        function showForgotPasswordMessage() {
-            alert("This function isn't working right now. Please try again later.");
-        }
+       
     </script>
 </body>
 </html>

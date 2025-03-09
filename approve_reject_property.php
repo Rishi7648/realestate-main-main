@@ -88,7 +88,7 @@ if (isset($data['property_id'], $data['property_type'], $data['action'])) {
                     $mail->Port = 587;
 
                     //Recipients
-                    $mail->setFrom('rishisilwal19@gmail.com', 'Real Estate Nepal');
+                    $mail->setFrom('rishisilwal19@gmail.com', 'Ghar Jagga Sansar');
                     $mail->addAddress($email, "$first_name $last_name");
 
                     // Content
@@ -136,7 +136,7 @@ if (isset($data['property_id'], $data['property_type'], $data['action'])) {
                     $mail->Port = 587;
 
                     //Recipients
-                    $mail->setFrom('rishisilwal19@gmail.com', 'Real Estate Nepal');
+                    $mail->setFrom('rishisilwal19@gmail.com', 'Ghar Jagga Sansar');
                     $mail->addAddress($email, "$first_name $last_name");
 
                     // Content

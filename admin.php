@@ -230,7 +230,7 @@ $house_properties = $stmt_house->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                         <button class="btn approve" onclick="handleAction(<?= $property['id'] ?>, 'land', 1)">Approve</button>
                         <button class="btn reject" onclick="handleAction(<?= $property['id'] ?>, 'land', 0)">Reject</button>
-                        <button class="btn delete" onclick="handleAction(<?= $property['id'] ?>, 'land', 2)">Delete</button>
+                        
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -273,7 +273,7 @@ $house_properties = $stmt_house->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                         <button class="btn approve" onclick="handleAction(<?= $property['id'] ?>, 'house', 1)">Approve</button>
                         <button class="btn reject" onclick="handleAction(<?= $property['id'] ?>, 'house', 0)">Reject</button>
-                        <button class="btn delete" onclick="handleAction(<?= $property['id'] ?>, 'house', 2)">Delete</button>
+                        
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>

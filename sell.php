@@ -292,7 +292,7 @@ nav ul li a:hover {
                 <input type="text" id="location" name="location" placeholder="Enter location" required>
                 
                 <label for="price">Price:</label>
-                <input type="number" id="price" name="price" placeholder="Enter price in nepali" required>
+                <input type="number" id="price" name="price" placeholder="Enter price in number" required>
                 
                 <label for="map_image">Upload Map Image (Naksa):</label>
                 <input type="file" id="map_image" name="map_image" accept="image/*" required>
@@ -336,7 +336,7 @@ nav ul li a:hover {
                 <input type="text" id="area" name="area" placeholder="Enter house area" required>
         
         <label for="price">Price:</label>
-        <input type="number" id="price" name="price" placeholder="Enter price in nepali" required>
+        <input type="number" id="price" name="price" placeholder="Enter price in number" required>
         
         <label for="map_image">Upload Map Image (Naksa):</label>
         <input type="file" id="map_image" name="map_image" accept="image/*" required>

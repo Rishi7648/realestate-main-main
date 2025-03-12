@@ -10,44 +10,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = trim($_POST['phone']);
     $password = $_POST['password'];
 
-    // Validating email
+    // Validate inputs
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // This function is used to validate the email address
         echo "<p>Invalid email format!</p>";
         exit();
     }
  
     // !preg_match is used for Validating input (e.g., ensuring a string does not contain invalid characters).
-    // preg_match  function is used to perform a regular expression
     if (!preg_match('/^\d{10}$/', $phone)) {
         echo "<p>Invalid phone number! Must be 10 digits.</p>";
         exit();
-        // exit function is used to terminates the execution of the script immediately
     }
 
     // Password strength validation
-    if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[A-Za-z\d]{6,}$/', $password)) {
+    if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[A-Za-z\d]{8,}$/', $password)) {
         echo "<p>Password is weak! Please use at least 6 characters with a mix of letters and numbers.</p>";
         exit();
     }
 
     // Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password securely
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     try {
         // Check if the email already exists
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-         // We use $stmt variable when we prepare and execute SQL queries securely
+         // We use $stmt when we prepare and execute SQL queries securely
         $stmt->execute(['email' => $email]);
 
         if ($stmt->rowCount() > 0) {
             echo "<p>Email already exists!</p>";
         } else {
-            // Inserting users into the database
+            // Insert user into the database
             $sql = "INSERT INTO users (first_name, last_name, email, phone, password) 
                     VALUES (:first_name, :last_name, :email, :phone, :password)";
             $stmt = $conn->prepare($sql);
-            
 /* Binding Data and Executing the Query*/
 
             $data = [
@@ -55,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'last_name' => $lastName,
                 'email' => $email,
                 'phone' => $phone,
-                'password' => $hashedPassword // Use the hashed password here
+                'password' => $hashedPassword
             ];
 
             if ($stmt->execute($data)) {
@@ -80,14 +76,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         /* General body styles */
         body {
-            font-family: 'Poppins', sans-serif;/*This CSS rule sets the font style for text inside an element */
-            margin: 0; /*Margin creates space outside an element */
-            padding: 0; /*Margin creates space inside an element */
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
             height: 100vh;
             background: linear-gradient(135deg, #ff7e5f, #feb47b); /*background color behind of signup form*/
-            display: flex; /*for centering */
-            justify-content: center; /* Centers the content horizontally */
-            align-items: center; /* Centers the vertically */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: #fff;
         }
 
@@ -166,9 +162,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background: linear-gradient(45deg, #2575fc, #6a11cb);
         }
 
-        
+        /* Forgot Password link */
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 
-
+.forgot-password:hover {
+    color: #6a11cb; /* Change to a lighter or contrasting color on hover */
+    text-decoration: underline;
+}
+Explanation o
 
         /* Signup link */
         .form-container p {
@@ -223,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Signup</button>
         </form>
         <p>Already have an account? <a href="login.php">Login here</a></p>
-       
+        <a href="#" class="forgot-password" onclick="showForgotPasswordMessage()">Forgot Password?</a>
     </div>
 
     <script>
@@ -242,7 +251,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 passwordVisible = true;
             }
         }
-       
+        function showForgotPasswordMessage() {
+            alert("This function isn't working right now. Please try again later.");
+        }
     </script>
 </body>
 </html>

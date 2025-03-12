@@ -10,16 +10,18 @@ $sql_land = "SELECT * FROM land_properties WHERE status = 'approved' ORDER BY cr
 $sql_house = "SELECT * FROM houseproperties WHERE status = 'approved' ORDER BY created_at DESC, is_featured DESC";
 
 if (!empty($search_location)) {
-    // DESC, This sorts the results by the created_at column in descending order, meaning newest properties appear first.
+    // Add location filter to the SQL queries
     $sql_land = "SELECT * FROM land_properties WHERE status = 'approved' AND location LIKE :location ORDER BY created_at DESC, is_featured DESC";
     $sql_house = "SELECT * FROM houseproperties WHERE status = 'approved' AND location LIKE :location ORDER BY created_at DESC, is_featured DESC";
-// $We use $stmt when we prepare and execute SQL queries securely
+
+    // Prepare and execute the queries with the location filter
     $stmt_land = $conn->prepare($sql_land);
     $stmt_house = $conn->prepare($sql_house);
     $search_param = "%{$search_location}%";
     $stmt_land->bindParam(':location', $search_param);
     $stmt_house->bindParam(':location', $search_param);
 } else {
+    // Prepare and execute the queries without the location filter
     $stmt_land = $conn->prepare($sql_land);
     $stmt_house = $conn->prepare($sql_house);
 }
@@ -56,208 +58,128 @@ if (isset($_POST['approve_property'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy Properties</title>
-    
     <style>
-    /* General Styles */
-    body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa; /*dashboard color on buy properties button*/
-        color: #333; 
-    }
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
 
-    .container {
-        width: 90%;
-        margin: auto;
-        padding: 50px;
-        max-width: 1200px;
-    }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 50px;
+            max-width: 1200px;
+        }
 
-    h1 {
-        text-align: center;
-        color: #2c3e50;
-        margin-bottom: 20px;
-    }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
 
-    h5 {
-        font-size: 20px; 
-        color: red;
-        margin-bottom: 20px;
-    }
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
 
-    form {
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    form input[type="text"] {
-        padding: 12px;
-        font-size: 1rem;
-        width: 60%;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    form button {
-        padding: 12px 20px;
-        font-size: 1rem;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    form button:hover {
-        background-color: #0056b3;
-    }
-
-    /* Tab Buttons Styles */
-    .view-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .viewland, .viewhouse {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    color: white; /*view house button text color*/
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-weight: bold;
-    text-transform: uppercase;
-    margin: 0 10px; /* Add spacing between buttons */
-}
-
-.viewland {
-    background-color: #3498db; /* Blue for View Land button */
-}
-
-.viewhouse {
-    background-color: #e67e22; /* Orange for View House button */
-}
-
-.viewland:hover {
-    background-color: #2980b9; /* Darker blue on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-    transform: translateY(-3px);
-}
-
-.viewhouse:hover {
-    background-color: #d35400; /* Darker orange on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-    transform: translateY(-3px);
-}
-
-.viewland:active, .viewhouse:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.viewland.active, .viewhouse.active {
-    background-color: #2ecc71; /* Green for active state */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    color: #fff;
-}
-
-    .tab-content {
-        display: none;
-    }
-
-    .active-tab {
-        display: block;
-    }
-
-    /* Property Card Styles */
-    .property {
-        background-color: white;
-        margin-bottom: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        transition: transform 0.3s;
-    }
-
-    .property:hover {
-        transform: translateY(-5px);
-    }
-
-    .property img {
-        max-width: 600px;
-        height: auto;
-        border-radius: 5px;
-        margin-top: 10px;
-    }
-
-    .property h3 {
-        color: #34495e;
-        margin-bottom: 10px;
-    }
-
-    .property p {
-        margin: 5px 0;
-        color: #555;
-    }
-
-    .property h4 {
-        font-size: 1.1rem;
-        color: #2c3e50;
-        margin-top: 15px;
-    }
-
-    .property ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .property ul li {
-        margin: 10px 0;
-    }
-
-    /* Footer Styles */
-    footer {
-        background-color: #333;
-        color: white;
-        padding: 10px 0;
-        text-align: center;
-        position: fixed;
-        width: 100%;
-        bottom: 0;
-        left: 0;
-    }
-
-    footer p {
-        margin: 0;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
         form input[type="text"] {
-            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            width: 60%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         form button {
-            width: 100%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-    }
-    
-    /* Navbar Styling */
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Property Card Styles */
+        .property {
+            background-color: white;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+
+        .property:hover {
+            transform: translateY(-5px);
+        }
+
+        .property img {
+            max-width: 600px;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .property h3 {
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .property p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .property h4 {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-top: 15px;
+        }
+
+        .property ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .property ul li {
+            margin: 10px 0;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Navbar Styling */
 nav {
     background-color: #007BFF;
     padding:  20px;
@@ -295,7 +217,8 @@ nav ul li a:hover {
     background-color: #0056b3;
     border-radius: 5px;
 }
-    /* Hide Hamburger Icon on Large Screens */
+
+/* Hide Hamburger Icon on Large Screens */
 .menu-toggle {
     font-size: 30px;
     color: black;
@@ -332,41 +255,11 @@ nav ul li a:hover {
     }
 }
 
-    /*  this CSS to hide elements initially */
-    .hidden {
-        display: none;
-    }
-    /* buy property butoon style */
-    #buyPropertiesButton {
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    background-color: #2ecc71; /* Green color */
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-#buyPropertiesButton:hover {
-    background-color: #27ae60; /* Darker green on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-    transform: translateY(-3px);
-}
-
-#buyPropertiesButton:active {
-    background-color: #229954; /* Even darker green on click */
-    transform: translateY(0);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
     </style>
 </head>
 <body>
 <nav>
-    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>  <!-- Hamburger Icon -->
+    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
     <ul>
         <li><a href="index.php">Home</a></li>
         <li><a href="buy.php">Buy</a></li>
@@ -379,28 +272,16 @@ nav ul li a:hover {
 </nav>
 <div class="container">
     <h1>Buy Properties</h1>
-    
-    <!-- Buy Properties Button -->
-    <div style="text-align: center; margin-bottom: 20px;">
-        <button id="buyPropertiesButton" onclick="showProperties()">Buy Properties</button>
-    </div>
 
     <!-- Search Form -->
-    <form method="GET" action="" style="text-align: center; margin-bottom: 20px;" class="hidden" id="searchForm">
+    <form method="GET" action="">
         <input type="text" name="search_location" placeholder="Search by location" 
-               value="<?= htmlspecialchars($search_location) ?>" 
-               style="padding: 10px; font-size: 1em; width: 60%; border: 1px solid #ccc; border-radius: 5px;">
-        <button type="submit" style="padding: 10px 20px; font-size: 1.1em;">Search</button>
+               value="<?= htmlspecialchars($search_location) ?>">
+        <button type="submit">Search</button>
     </form>
 
-    <!-- Buttons for viewing Land and House properties -->
-    <div style="text-align: center;" class="hidden" id="viewButtons">
-        <button id="viewLand" class="viewland" onclick="toggleTab('land')">View Land</button>
-        <button id="viewHouse" class="viewhouse" onclick="toggleTab('house')">View House</button>
-    </div>
-
     <!-- Display Land Properties -->
-    <div id="landProperties" class="tab-content hidden">
+    <div id="landProperties">
         <h2>Land Properties</h2>
         <?php if (!empty($land_properties)): ?>
             <?php foreach ($land_properties as $property): ?>
@@ -432,14 +313,14 @@ nav ul li a:hover {
     </div>
 
     <!-- Display House Properties -->
-    <div id="houseProperties" class="tab-content hidden">
+    <div id="houseProperties">
         <h2>House Properties</h2>
         <?php if (!empty($house_properties)): ?>
             <?php foreach ($house_properties as $property): ?>
                 <div class="property">
                     <h3>Location: <?= htmlspecialchars($property['location']) ?></h3>
                     <p>Price: NPR <?= htmlspecialchars($property['price']) ?></p>
-                    <p>area: <?= htmlspecialchars($property['area']) ?></p>
+                    <p>Area: <?= htmlspecialchars($property['area']) ?></p>
                     <h4>House Details:</h4>
                     <ul>
                         <li>Total Floors: <?= htmlspecialchars($property['floors']) ?></li>
@@ -478,43 +359,11 @@ nav ul li a:hover {
 </footer>
 
 <script>
-    // JavaScript to toggle between the tabs for Land and House properties
-    function toggleTab(tab) {
-        var landTab = document.getElementById('landProperties');
-        var houseTab = document.getElementById('houseProperties');
-        var landButton = document.getElementById('viewLand');
-        var houseButton = document.getElementById('viewHouse');
-
-        if (tab === 'land') {
-            landTab.classList.add('active-tab');
-            houseTab.classList.remove('active-tab');
-            landButton.classList.add('active');
-            houseButton.classList.remove('active');
-        } else {
-            houseTab.classList.add('active-tab');
-            landTab.classList.remove('active-tab');
-            houseButton.classList.add('active');
-            landButton.classList.remove('active');
-        }
-    }
-
-    // Function to show properties when "Buy Properties" button is clicked
-    function showProperties() {
-        document.getElementById('buyPropertiesButton').classList.add('hidden');
-        document.getElementById('searchForm').classList.remove('hidden');
-        document.getElementById('viewButtons').classList.remove('hidden');
-        document.getElementById('landProperties').classList.remove('hidden');
-        document.getElementById('houseProperties').classList.remove('hidden');
-        toggleTab('land'); // Show land properties by default
-    }
-
+    // JavaScript to toggle the mobile menu
     function toggleMenu() {
         const navMenu = document.querySelector("nav ul");
         navMenu.classList.toggle("active");
     }
-
-    // Initialize the first tab
-    toggleTab('land');
 </script>
 </body>
 </html>
